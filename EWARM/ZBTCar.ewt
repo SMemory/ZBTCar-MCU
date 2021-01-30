@@ -1296,6 +1296,15 @@
     <group>
         <name>Function</name>
         <file>
+            <name>$PROJ_DIR$\..\Function\func_drv.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Function\lcd_gui.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Function\lcd_ili9341.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\Function\lcd_lvgl.c</name>
         </file>
     </group>

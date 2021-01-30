@@ -26,7 +26,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lcd_gui.h"
+#include "func_drv.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,6 +90,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  buz_queue = xQueueCreate(5,sizeof(uint8_t));
+
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -97,6 +100,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  xTaskCreate(gui_TaskFunction,"Gui_Task",1024,NULL,osPriorityLow,NULL);
+  xTaskCreate(drv_TaskFunction,"Drv_Task",32,NULL,osPriorityBelowNormal,NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -118,7 +123,8 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    lv_tick_inc(5);      //为lvgl提供时间刻度
+    osDelay(5);
   }
   /* USER CODE END StartDefaultTask */
 }
