@@ -1299,6 +1299,9 @@
             <name>$PROJ_DIR$\..\Function\func_drv.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\Function\func_uart.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\Function\lcd_gui.c</name>
         </file>
         <file>

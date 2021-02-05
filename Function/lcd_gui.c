@@ -30,10 +30,17 @@ void gui_log_append(const char* txt_in);
 
 void gui_TaskFunction(void *pvParameters)
 {
+  guival_queue_t guival_queuedata;
   LVGL_ILI9341_Init(0);
   gui_init();
   while(1)
   {
+    if(xQueueReceive(guival_queue,&guival_queuedata,1)==pdTRUE)
+    {
+      guival_queuedata.speed;
+      lv_label_set_text_fmt(ui.speed,"%0.2f",guival_queuedata.speed/1000.0);
+      lv_label_set_text_fmt(ui.dir,"%0.2f",guival_queuedata.dir/100.0);
+    }
     lv_task_handler();
   }
 }
@@ -41,19 +48,23 @@ void gui_TaskFunction(void *pvParameters)
 static void gui_event_handler(lv_obj_t *obj, lv_event_t event)
 {
   uint8_t buzqueuedata = 1;
+  uint8_t buf[4];
   const uint32_t *id;
+  buf[0] = 0xB2;buf[2] = 0x7A;
   if(obj == ui.btns && event == LV_EVENT_VALUE_CHANGED) 
   {
     id = lv_event_get_data();
     switch(*id)
     {
     case 0:
-      dir = 21.35;
-      lv_label_set_text_fmt(ui.dir,"%0.2f",dir);
+      buf[1] = 0;
+      buf[3] = buf[0]+buf[1]+buf[2];
+      HAL_UART_Transmit(&PC_UART,buf,4,200);
       break;
     case 1:
-      dir = -20.2;
-      lv_label_set_text_fmt(ui.dir,"%0.2f",dir);
+      buf[1] = 1;
+      buf[3] = buf[0]+buf[1]+buf[2];
+      HAL_UART_Transmit(&PC_UART,buf,4,200);
       break;
     case 2:
       gui_log_append("Hello World ZBT!");

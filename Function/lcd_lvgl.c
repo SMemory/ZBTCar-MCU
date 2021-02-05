@@ -26,8 +26,8 @@ void LVGL_ILI9341_Flush_Callback(lv_disp_drv_t * disp_drv, const lv_area_t * are
     color_p++;
   }
   HAL_GPIO_WritePin(LCD_DC_GPIO_Port,LCD_DC_Pin,GPIO_PIN_SET);
-  //HAL_SPI_Transmit(&hspi1, lcd_buf_temp, size*2, 100);
-  HAL_SPI_Transmit_DMA(&hspi1, lcd_buf_temp, size*2);
+  HAL_SPI_Transmit(&hspi1, lcd_buf_temp, size*2, 100);
+//  HAL_SPI_Transmit_DMA(&hspi1, lcd_buf_temp, size*2);
   //for(y = area->y1; y <= area->y2; y++) {
   //  for(x = area->x1; x <= area->x2; x++) {
   //    ILI9341_write_word(color_p->full);

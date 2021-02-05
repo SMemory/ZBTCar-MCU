@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "lcd_gui.h"
 #include "func_drv.h"
+#include "func_uart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,7 +92,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   buz_queue = xQueueCreate(5,sizeof(uint8_t));
-
+  guival_queue = xQueueCreate(5,sizeof(guival_queue_t));
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -102,6 +103,7 @@ void MX_FREERTOS_Init(void) {
   /* add threads, ... */
   xTaskCreate(gui_TaskFunction,"Gui_Task",1024,NULL,osPriorityLow,NULL);
   xTaskCreate(drv_TaskFunction,"Drv_Task",32,NULL,osPriorityBelowNormal,NULL);
+  xTaskCreate(test_TaskFunction,"Test_Task",32,NULL,osPriorityNormal,NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
